@@ -1,0 +1,80 @@
+# new-controller
+Lambda based extensible "New Controller" for Spring MVC insipired by Spark Java, Siden (aka Sinatra like framework)
+
+## How to use
+
+``` xml
+<dependency>
+    <groupId>am.ik.springmvc</groupId>
+    <artifactId>new-controller</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
+## Sample
+This sample uses `org.springframework.web.HttpRequestHandler` as handler for simplicity but this is not mandatory.
+
+``` java
+import newcontroller.RouterDefinition;
+import newcontroller.RouterHandlerMapping;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.web.HttpRequestHandler;
+import org.springframework.web.servlet.HandlerAdapter;
+
+@SpringBootApplication
+public class App {
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+
+    @Bean
+    RouterHandlerMapping<HttpRequestHandler> routerHandlerMapping() {
+        RouterHandlerMapping<HttpRequestHandler> handlerMapping = new RouterHandlerMapping<>(
+                (handler, request, response) -> {
+                    handler.handleRequest(request, response);
+                    return null;
+                });
+        handlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return handlerMapping;
+    }
+
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    HandlerAdapter routerHandlerAdapter(RouterHandlerMapping<HttpRequestHandler> handlerMapping) {
+        return handlerMapping.handlerAdapter();
+    }
+
+    // Define request mapping using lambda
+    @Bean
+    RouterDefinition<HttpRequestHandler> routerDef() {
+        return router -> router
+                .get("/", (req, res) -> {
+                    // curl -X GET localhost:8080 => Sample
+                    res.getWriter().print("Sample");
+                    res.getWriter().flush();
+                })
+                .get("/hello", (req, res) -> {
+                    // curl -X GET localhost:8080/hello => Hello World!
+                    res.getWriter().print("Hello World!");
+                    res.getWriter().flush();
+                })
+                .get("/bar/{foo}", (req, res) -> {
+                    // curl -X GET localhost:8080/bar/aaa => foo = aaa
+                    res.getWriter().print("foo = " + req.getParameter("foo"));
+                    res.getWriter().flush();
+                })
+                .post("/echo", (req, res) -> {
+                    // curl -X POST localshot:8080/echo -d name=Joy => Hi Joy
+                    res.getWriter().print("Hi " + req.getParameter("name"));
+                    res.getWriter().flush();
+                });
+    }
+}
+```
+
+## License
+Licensed under the Apache License, Version 2.0.
