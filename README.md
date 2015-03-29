@@ -1,5 +1,5 @@
 # new-controller
-Lambda based extensible "New Controller" for Spring MVC insipired by Spark Java, Siden (aka Sinatra like framework)
+Lambda based extensible "New Controller" for Spring MVC insipired by [Spark Java](http://sparkjava.com/), [Siden](https://github.com/taichi/siden) (aka Sinatra like framework)
 
 ## How to use
 
