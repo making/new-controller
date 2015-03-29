@@ -1,4 +1,4 @@
-package lambda;
+package newcontroller;
 
 import me.geso.routes.WebRouter;
 

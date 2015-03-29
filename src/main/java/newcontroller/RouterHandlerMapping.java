@@ -1,7 +1,7 @@
-package lambda;
+package newcontroller;
 
-import lambda.support.CapturedHttpServletRequest;
-import lambda.support.CapturedHttpServletRequestAdopter;
+import newcontroller.support.CapturedHttpServletRequest;
+import newcontroller.support.CapturedHttpServletRequestAdopter;
 import me.geso.routes.RoutingResult;
 import me.geso.routes.WebRouter;
 import org.slf4j.Logger;

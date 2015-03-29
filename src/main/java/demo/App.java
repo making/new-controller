@@ -1,7 +1,7 @@
 package demo;
 
-import lambda.RouterDefinition;
-import lambda.RouterHandlerMapping;
+import newcontroller.RouterDefinition;
+import newcontroller.RouterHandlerMapping;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
