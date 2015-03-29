@@ -1,5 +1,7 @@
 package lambda;
 
-public interface RouterDefinition {
-    void define(Router router);
+import me.geso.routes.WebRouter;
+
+public interface RouterDefinition<T> {
+    void define(WebRouter<T> router);
 }
