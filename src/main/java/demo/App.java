@@ -44,6 +44,10 @@ public class App {
                     res.getWriter().print("Hello World!");
                     res.getWriter().flush();
                 })
+                .get("/bar/{foo}", (req, res) -> {
+                    res.getWriter().print("foo = " + req.getParameter("foo"));
+                    res.getWriter().flush();
+                })
                 .post("/echo", (req, res) -> {
                     res.getWriter().print("Hi " + req.getParameter("name"));
                     res.getWriter().flush();

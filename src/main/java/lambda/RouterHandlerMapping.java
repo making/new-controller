@@ -1,5 +1,7 @@
 package lambda;
 
+import lambda.support.CapturedHttpServletRequest;
+import lambda.support.CapturedHttpServletRequestAdopter;
 import me.geso.routes.RoutingResult;
 import me.geso.routes.WebRouter;
 import org.slf4j.Logger;
@@ -63,7 +65,8 @@ public class RouterHandlerMapping<T> extends AbstractHandlerMapping {
             @SuppressWarnings("unchecked")
             public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
                 RoutingResult<T> routingResult = (RoutingResult<T>) handler;
-                return RouterHandlerMapping.this.handlerApplier.apply(routingResult.getDestination(), request, response);
+                CapturedHttpServletRequest req = new CapturedHttpServletRequestAdopter(routingResult.getCaptured(), request);
+                return RouterHandlerMapping.this.handlerApplier.apply(routingResult.getDestination(), req, response);
             }
 
             @Override
