@@ -7,7 +7,7 @@ Lambda based extensible "New Controller" for Spring MVC insipired by [Spark Java
 <dependency>
     <groupId>am.ik.springmvc</groupId>
     <artifactId>new-controller</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
