@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package newcontroller;
+package newcontroller.handler;
 
-import me.geso.routes.WebRouter;
-
-public interface RouterDefinition<T> {
-    void define(WebRouter<T> router);
+public interface HandlerBridge<T> {
+    T bridge(Request request, Response response);
 }
