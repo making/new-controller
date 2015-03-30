@@ -37,35 +37,39 @@ public class App {
     @Bean
     RouterDefinition<Handler> routerDef() {
         return router -> router
-                .get("/", (req, res) -> res.body("Sample")) // curl localhost:8080
-                .get("/hello", (req, res) -> res.body("Hello World!")) // curl localhost:8080/hello
+                /* curl localhost:8080 ==> Sample*/
+                .get("/", (req, res) -> res.body("Sample"))
+                /* curl localhost:8080/hello ==> Hello World! */
+                .get("/hello", (req, res) -> res.body("Hello World!"))
+                /* curl localhost:8080/json ==> {"name":"John","age":30} */
                 .get("/json", (req, res) -> res
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(new Person("John", 30))) // curl localhost:8080/json
+                        .body(new Person("John", 30)))
+                /* curl localhost:8080/xml ==> <?xml version="1.0" encoding="UTF-8" standalone="yes"?><person><age>30</age><name>John</name></person> */
                 .get("/xml", (req, res) -> res
                         .contentType(MediaType.APPLICATION_XML)
-                        .body(new Person("John", 30))) // curl localhost:8080/xml
+                        .body(new Person("John", 30)))
+                /* curl localhost:8080/template ==> [templates/hello.html will be rendered via Thymeleaf] */
                 .get("/template", (req, res) -> {
-                    // curl localhost:8080/template
                     req.put("message", "Hello World!");
                     return res.view("hello");
                 })
+                /* curl localhost:8080/bar/aaa ==> foo = aaa */
                 .get("/bar/{foo}", (req, res) ->
-                        // curl localhost:8080/bar/aaa
                         res.body("foo = " + req.param("foo")
                                 .orElse("??")))
+                /* curl localhost:8080/param -d name=John ==> Hi John */
                 .post("/echo", (req, res) ->
-                        // curl localhost:8080/param -d name=John
                         res.body(req.param("name")
                                 .map(name -> "Hi " + name)
                                 .orElse("Please input name!")))
+                /* curl localhost:8080/param -d name=John -d age=30 ==> {"name":"John","age":30} */
                 .post("/param", (req, res) -> {
-                    // curl localhost:8080/param -d name=John -d age=30
                     Person person = req.params(Person.class);
                     return res.body(person);
                 })
+                /* curl localhost:8080/body -H 'Content-Type: application/json' -d '{"name":"John","age":30}' ==> {"name":"John","age":30} */
                 .post("/body", (req, res) -> {
-                    // curl localhost:8080/body -H 'Content-Type: application/json' -d '{"name":"John","age":30}'
                     Person person = req.body(Person.class);
                     return res.body(person);
                 });
